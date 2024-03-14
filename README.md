@@ -6,7 +6,7 @@ This project attempts to replicate chatGPT frontend and backend functionality us
 
 Set your openAI API key as an environment variable:
 ```
-export OPENAI_API_KEY=sk....111`
+export OPENAI_API_KEY='sk....111'
 ```
 
 ## Install conda environment
