@@ -5,25 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat with GPT-4</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        #chatbox { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; margin-bottom: 20px; }
-        .user-message { color: blue; }
-        .bot-message { color: green; }
-    </style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Lighter text */
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        header {
+            text-align: left;
+            margin-bottom: 20px;
+            color: #fff; /* White text for contrast */
+        }
+        .code-block {
+            background-color: #2e2e2e; /* Dark background for code */
+            color: #f8f8f2; /* Light color for text */
+            font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+            padding: 10px;
+            margin: 5px 0;
+            /* overflow-x: auto; Allows horizontal scrolling for longer lines of code */
+            border-radius: 4px;
+            white-space: pre-wrap; /* Maintains spacing and formatting */
+            overflow: hidden;
+        }
+        #chatbox {
+            flex-grow: 1;
+            border: 1px solid #333; /* Darker border */
+            background-color: #242424; /* Dark background for chatbox */
+            padding: 10px;
+            overflow-y: scroll;
+            display: flex;
+            flex-direction: column-reverse;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .user-message, .bot-message {
+            margin: 5px;
+            padding: 10px;
+            border-radius: 8px;
+            color: #fff; /* White text for messages */
+            display: inline-block;
+            max-width: 80%;
+        }
+        .user-message {
+            background-color: #007bff; /* Keep for contrast */
+            align-self: flex-end;
+        }
+        .bot-message {
+            /*background-color: #4caf50; /* Keep for contrast */
+            align-self: flex-start;
+        }
+        .input-area {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        #userInput {
+            flex-grow: 1;
+            padding: 10px;
+            margin-right: 8px;
+            border: 1px solid #555; /* Darker border for input */
+            background-color: #333; /* Darker background for input */
+            color: #fff; /* Light text for input */
+            border-radius: 8px;
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff; /* Bright color for contrast */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>    
 </head>
 <body>
+    <header>
+        <h1>Chat with GPT-4</h1>
+    </header>
     <div id="chatbox"></div>
-    <input type="text" id="userInput" placeholder="Type your message here..." autofocus />
-    <button onclick="sendMessage()">Send</button>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type your message here..." autofocus />
+        <button onclick="sendMessage()">Send</button>
+    </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            var input = document.getElementById('userInput');
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Prevent the default action to avoid submitting a form if there is one
+                    sendMessage();
+                }
+            });
+        });
+    
         function sendMessage() {
             var input = document.getElementById('userInput');
             var message = input.value.trim();
             if (!message) return;
-
+    
             displayMessage(message, 'user-message');
-
+    
             fetch('/chatGPT/chat/', {
                 method: 'POST',
                 headers: {
@@ -35,18 +125,77 @@
             .then(response => response.json())
             .then(data => displayMessage(data.reply, 'bot-message'))
             .catch(error => console.error('Error:', error));
-
+    
             input.value = ''; // Clear input after sending
         }
+    
+        // function displayMessage(message, className) {
+        //     var chatbox = document.getElementById('chatbox');
+        //     var msgDiv = document.createElement('div');
+        //     msgDiv.className = 'message ' + className;
 
-        function displayMessage(message, className) {
+        //     // Check if the message contains a code block
+        //     if (message.includes('```')) {
+        //         // Extract and remove the code block from the message
+        //         const codeBlockContent = message.match(/```(.*?)```/s)[1];
+        //         const nonCodeMessage = message.replace(/```.*?```/s, '').trim();
+
+        //         // Display the non-code part of the message, if present
+        //         if (nonCodeMessage) {
+        //             var textDiv = document.createElement('div');
+        //             textDiv.textContent = nonCodeMessage;
+        //             msgDiv.appendChild(textDiv);
+        //         }
+
+        //         // Create and style the code block
+        //         var pre = document.createElement('pre');
+        //         var code = document.createElement('code');
+        //         pre.className = 'code-block';
+        //         code.textContent = codeBlockContent.trim();
+        //         pre.appendChild(code);
+        //         msgDiv.appendChild(pre);
+        //     } else {
+        //         // If no code block, display the message normally
+        //         msgDiv.textContent = message;
+        //     }
+
+        //     chatbox.prepend(msgDiv);
+        // }
+
+        function displayMessage(content, className) {
             var chatbox = document.getElementById('chatbox');
-            var msgDiv = document.createElement('div');
-            msgDiv.textContent = message;
-            msgDiv.className = className;
-            chatbox.appendChild(msgDiv);
-            chatbox.scrollTop = chatbox.scrollHeight; // Scroll to bottom
+            
+            // Split the message based on the code block delineated by triple backticks (```)
+            const parts = content.split(/```(.*?)```/s);
+
+            parts.forEach((part, index) => {
+                if (index % 2 === 0) {
+                    // This is either the introductory text or the closing text
+                    var textDiv = document.createElement('div');
+                    textDiv.textContent = part.trim();
+                    textDiv.className = className;
+                    chatbox.prepend(textDiv);
+                } else {
+                    // This is a code block
+                    var pre = document.createElement('pre');
+                    var code = document.createElement('code');
+                    pre.className = 'code-block';
+                    code.textContent = part.trim();
+                    pre.appendChild(code);
+                    chatbox.prepend(pre);
+                }
+            });
+
+            // Scroll to the newest message
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+
+        function isCode(message) {
+            // Very basic check - you might want to expand this
+            return message.startsWith('```') && message.endsWith('```');
         }
     </script>
+    
 </body>
 </html>
