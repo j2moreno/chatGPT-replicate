@@ -85,56 +85,6 @@
         button:hover {
             background-color: #0056b3;
         }
-        .sidebar {
-            width: 250px;
-            overflow-y: auto;
-            background-color: #333; /* Darker shade for contrast */
-            color: #e0e0e0; /* Light text for visibility */
-            padding: 10px;
-        }
-
-        .sidebar h2 {
-            color: #fff; /* White color for the title for better contrast */
-            margin-bottom: 20px;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .sidebar li {
-            padding: 10px;
-            margin-bottom: 10px; /* Space between items */
-            border-radius: 8px; /* Rounded corners for a modern look */
-            transition: background-color 0.3s; /* Smooth transition for hover effect */
-        }
-
-        .sidebar li a {
-            text-decoration: none;
-            color: #e0e0e0; /* Light text color for readability */
-            display: block; /* Make the whole area clickable */
-        }
-
-        .sidebar li:hover {
-            background-color: #484848; /* Slightly lighter on hover for interaction cue */
-        }
-
-        /* Adjusting the overall layout to include the sidebar */
-        .container {
-            display: flex;
-            height: 100vh;
-            margin-top: -20px; /* Adjust based on your layout */
-        }
-
-        /* Ensuring the chat area flexes to fill space */
-        .chat-area {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 20px;
-            background-color: #242424; /* Matching the dark theme */
-        }
 
         /* .user-message { 
             background-color: #007bff; 
@@ -154,6 +104,40 @@
     </header>
     <div id="chatbox"></div>
 
+    <!-- <div style="display: flex; height: 100vh;">
+        <!-- Sidebar for conversations -->
+        <div style="width: 250px; overflow-y: auto; background-color: #f0f0f0;">
+            <h2>Conversations</h2>
+            <ul style="list-style-type: none; padding: 0;">
+                {% for conversation in conversations %}
+                <li style="padding: 10px; border-bottom: 1px solid #ccc;">
+                    <a href="?conversation_id={{ conversation.id }}" style="text-decoration: none; color: #333;">
+                        Conversation at {{ conversation.created_at|date:"SHORT_DATETIME_FORMAT" }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Main chat area -->
+        <div style="flex-grow: 1; overflow-y: auto; padding: 20px;">
+            {% if selected_conversation %}
+                <h3>Selected Conversation</h3>
+                <div id="messages">
+                    {% for message in selected_conversation.messages.all %}
+                        <div class="{{ message.get_css_class }}">
+                            {{ message.text }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- Your input area and send button here -->
+            {% else %}
+                <p>No conversation selected.</p>
+            {% endif %}
+        </div>
+    </div> -->
+
+
     <div class="container">
         <!-- Sidebar for conversations -->
         <div class="sidebar">
@@ -172,7 +156,7 @@
         <!-- Main chat area -->
         <div class="chat-area">
             {% if selected_conversation %}
-                <!-- <h3>Selected Conversation</h3> -->
+                <h3>Selected Conversation</h3>
                 <div id="messages">
                     {% for message in selected_conversation.messages.all %}
                         <div class="{{ message.get_css_class }}">
@@ -180,15 +164,18 @@
                         </div>
                     {% endfor %}
                 </div>
-                <div class="input-area">
-                    <input type="text" id="userInput" placeholder="Type your message here..." autofocus />
-                    <input type="hidden" id="conversationId" value="{{ selected_conversation.id }}">
-                    <button onclick="sendMessage()">Send</button>
-                </div>
+                <!-- Your input area and send button here -->
             {% else %}
                 <p>No conversation selected.</p>
             {% endif %}
         </div>
+    </div>
+
+
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Type your message here..." autofocus />
+        <input type="hidden" id="conversationId" value="{{ selected_conversation.id }}">
+        <button onclick="sendMessage()">Send</button>
     </div>
 
     <script>
@@ -252,6 +239,12 @@
             // Scroll to the newest message
             chatbox.scrollTop = chatbox.scrollHeight;
         }
+
+
+        // function isCode(message) {
+        //     // Very basic check - you might want to expand this
+        //     return message.startsWith('```') && message.endsWith('```');
+        // }
     </script>
     
 </body>

@@ -15,3 +15,6 @@ class Message(models.Model):
     # True if the message is from the user, False if from gpt-4
     is_user_message = models.BooleanField(default=True)  
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_css_class(self):
+        return 'user-message' if self.is_user_message else 'gpt-message'

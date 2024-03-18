@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from django.conf import settings
@@ -21,6 +21,20 @@ client = OpenAI(api_key=settings.OPENAI_API_KEY)
 class IndexView(TemplateView):
     template_name = "chatGPT/index.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        conversations = Conversation.objects.all().order_by('-created_at')
+        context['conversations'] = conversations
+        
+        selected_conversation_id = self.request.GET.get('conversation_id')
+        if selected_conversation_id:
+            selected_conversation = get_object_or_404(Conversation, id=selected_conversation_id)
+        else:
+            selected_conversation = conversations.first() if conversations.exists() else None
+
+        context['selected_conversation'] = selected_conversation
+        return context
+
 class ChatView(APIView):
     
     def post(self, request, *args, **kwargs):
@@ -28,15 +42,10 @@ class ChatView(APIView):
 
         if serializer.is_valid():
             user_message = serializer.validated_data['message']
+            conversation_id = serializer.validated_data.get('conversation_id')
                 
-            # Get the session_id from the user's session, or create one
-            session_id = request.session.session_key or request.session.create()
-            logger.info("session_ID: " + session_id)
-            
-            # Retrieve an existing conversation with the session_id
-            conversation, created = Conversation.objects.get_or_create(session_id=session_id)
-            logger.info(conversation)
-            logger.info(created)
+            # Retrieve the existing conversation using the ID
+            conversation = get_object_or_404(Conversation, id=conversation_id)
             
             # Save the user's message
             Message.objects.create(conversation=conversation, text=user_message, is_user_message=True)
