@@ -17,4 +17,4 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def get_css_class(self):
-        return 'user-message' if self.is_user_message else 'gpt-message'
+        return 'user-message' if self.is_user_message else 'bot-message'
