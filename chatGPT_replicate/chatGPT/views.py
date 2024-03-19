@@ -11,12 +11,29 @@ from rest_framework import status
 from rest_framework.response import Response
 from .serializers import ChatSerializer
 from django.views.generic import TemplateView
+from django.http import JsonResponse
 
 from .models import Conversation, Message
 
 logger = logging.getLogger(__name__)
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
+
+def create_conversation(request):
+    """
+    Creates a new conversation
+    """
+    if request.method == 'POST':
+
+        new_conversation = Conversation.objects.create()
+
+        return JsonResponse({
+            'status': 'success',
+            'conversation_id': new_conversation.id,
+            'created_at': new_conversation.created_at,
+        })
+    else:
+        return JsonResponse({'status': 'error'}, status=400)
 
 class IndexView(TemplateView):
     template_name = "chatGPT/index.html"
