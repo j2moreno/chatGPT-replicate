@@ -38,7 +38,7 @@
             border: 1px solid #333; /* Darker border */
             background-color: #242424; /* Dark background for chatbox */
             padding: 5px;
-            overflow-y: scroll;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             margin-bottom: 10px;
@@ -52,6 +52,7 @@
             border-radius: 8px;
             color: #fff; /* White text for messages */
             max-width: 80%;
+            word-wrap: break-word;
         }
         .user-message {
             /* background-color: #007bff; Keep for contrast */
@@ -100,6 +101,7 @@
             background-color: #333; /* Darker shade for contrast */
             color: #e0e0e0; /* Light text for visibility */
             padding: 10px;
+            flex: 0 0 250px;
         }
         .sidebar_title {
             display: flex; /* Align items in a row */
