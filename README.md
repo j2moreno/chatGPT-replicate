@@ -2,6 +2,9 @@
 
 This project attempts to replicate chatGPT frontend and backend functionality using Django. 
 
+<img width="1395" alt="image" src="https://github.com/j2moreno/chatGPT-replicate/assets/13912964/ed1be686-68d1-40e4-88a7-d5830f624af3">
+
+
 ## Goals
 
 - [X] Have a conversational chatbox that will answer any question you have
@@ -12,7 +15,7 @@ This project attempts to replicate chatGPT frontend and backend functionality us
   - [X] Add new conversations 
   - [X] If a conversation is selected, the conversation is displayed
   - [X] Ability to delete conversation
-  - [ ] Highlight active conversation
+  - [X] Highlight active conversation
 
 ### Stretch Goals 
 - [ ] Have the ability to switch between GPT3.5 and GPT4
