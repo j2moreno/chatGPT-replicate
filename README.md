@@ -1,6 +1,6 @@
 # chatGPT-replicate
 
-This project attempts to replicate chatGPT frontend and backend functionality using Django. 
+This project replicates chatGPT frontend and backend functionality using Django. 
 
 <img width="1395" alt="image" src="https://github.com/j2moreno/chatGPT-replicate/assets/13912964/ed1be686-68d1-40e4-88a7-d5830f624af3">
 
