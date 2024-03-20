@@ -1,0 +1,218 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #121212; /* Dark background */
+    color: #e0e0e0; /* Lighter text */
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+header {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #fff; /* White text for contrast */
+}
+.code-block {
+    background-color: #2e2e2e; /* Dark background for code */
+    color: #f8f8f2; /* Light color for text */
+    font-family: 'Courier New', Courier, monospace; /* Monospaced font */
+    padding: 10px;
+    margin: 5px 0;
+    /* overflow-x: auto; Allows horizontal scrolling for longer lines of code */
+    border-radius: 4px;
+    white-space: pre-wrap; /* Maintains spacing and formatting */
+    overflow: hidden;
+}
+#messages {
+    flex-grow: 1;
+    border: 1px solid #333; /* Darker border */
+    background-color: #242424; /* Dark background for chatbox */
+    padding: 5px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    align-items: flex-start;
+    /* border-radius: 8px; */
+}
+.user-message, .bot-message {
+    /* display: flex; */
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 8px;
+    color: #fff; /* White text for messages */
+    max-width: 80%;
+    word-wrap: break-word;
+}
+.user-message {
+    /* background-color: #007bff; Keep for contrast */
+    align-self: flex-start;
+    border: 2px solid transparent;
+}
+.bot-message {
+    /*background-color: #4caf50; /* Keep for contrast */
+    align-self: flex-start;
+    border: 2px solid transparent;
+}
+.input-area {
+    display: flex;
+    margin-bottom: 20px;
+}
+#userInput {
+    flex-grow: 1;
+    padding: 10px;
+    margin-right: 8px;
+    border: 1px solid #555; /* Darker border for input */
+    background-color: #333; /* Darker background for input */
+    color: #fff; /* Light text for input */
+    border-radius: 8px;
+    outline: none;
+}
+#sendButton {
+    padding: 10px 20px;
+    background-color: #007bff; /* Bright color for contrast */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#sendButton:hover {
+    background-color: #0056b3;
+}
+.sidebar {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0; /* Set the top edge of the element to stick at 0px from the top */
+    z-index: 100; /* Make sure it sits above other content */
+    /* height: 100vh; Optional: if you want the sidebar to take full height */
+    width: 250px;
+    overflow-y: auto;
+    background-color: #333; /* Darker shade for contrast */
+    color: #e0e0e0; /* Light text for visibility */
+    padding: 10px;
+    flex: 0 0 250px;
+}
+.sidebar_title {
+    display: flex; /* Align items in a row */
+    align-items: center; /* Vertically center the items */
+    /* justify-content: space-between; Spreads the items; adjust as per your design */
+    margin-bottom: 20px; 
+}
+
+.sidebar h2 {
+    color: #fff; /* White color for the title for better contrast */
+    margin: 0px
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    padding: 10px;
+    margin-bottom: 10px; /* Space between items */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.sidebar li a {
+    text-decoration: none;
+    color: #e0e0e0; /* Light text color for readability */
+    display: block; /* Make the whole area clickable */
+}
+
+.sidebar li:hover {
+    background-color: #484848; /* Slightly lighter on hover for interaction cue */
+}
+
+/* Adjusting the overall layout to include the sidebar */
+.container {
+    display: flex;
+    height: 100vh;
+    margin-top: -20px; /* Adjust based on your layout */
+}
+
+/* Ensuring the chat area flexes to fill space */
+.chat-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #242424; /* Matching the dark theme */
+    display: flex;
+    flex-direction: column;
+}
+.sender-info, .message-content {
+    display: block; /* Explicitly ensure block-level display */
+    width: 100%; /* Take up the full width */
+}
+
+.sender-info {
+    font-weight: bold;
+    margin-bottom: 4px; /* Space between sender info and message */
+}
+
+.message-content {
+    margin-bottom: 20px;
+}
+
+.user-sender {
+    color: #007bff; /* Example: Blue for user */
+}
+
+.gpt4-sender {
+    color: #4caf50; /* Example: Green for bot */
+}
+
+#newConversation {
+    padding-left: 5px;
+    background-color: #333;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#newConversation:hover {
+    background-color: #484848;
+}
+#deleteConversation {
+    /* padding-left: 5px; */
+    background-color: #333;
+    margin: 0px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#deleteConversation:hover {
+    background-color: #ffa1a1;
+}
+
+.pencil-image {
+    max-width: 30px; /* Adjust max-width as needed */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Center the image in the button */
+    margin: 0; /* Override any default margins */
+    vertical-align: middle; /* Align the image vertically */
+}
+.delete-icon {
+    max-width: 30px; /*Adjust max-width as needed */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /*enter the image in the button*/
+    margin: 0; /*Override any default margins */
+    /* background-color: #333; */
+    /* mix-blend-mode: multiply; */
+    vertical-align: middle;
+}
+.conversation-content {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    /* justify-content: space */
+}
+.active-conversation {
+    background-color: #484848; /* Light grey, or choose a color that fits your design */
+    /* Additional styling as needed */
+}
