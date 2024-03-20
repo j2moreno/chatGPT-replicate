@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, reverse
 
 # Create your views here.
 from django.conf import settings
@@ -18,6 +18,15 @@ from .models import Conversation, Message
 logger = logging.getLogger(__name__)
 
 client = OpenAI(api_key=settings.OPENAI_API_KEY)
+
+from django.views.decorators.http import require_POST
+
+@require_POST
+def delete_conversation(request, conversation_id):
+    conversation = get_object_or_404(Conversation, id=conversation_id)
+    conversation.delete()
+    
+    return JsonResponse({'success': True, 'redirect_url': reverse('chatGPT:index')})
 
 def create_conversation(request):
     """
