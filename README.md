@@ -34,6 +34,12 @@ export OPENAI_API_KEY='sk....111'
 conda env create -f environment.yml
 ```
 
+## Install using pip 
+
+```
+pip install -r requirements.txt
+```
+
 ## Run Sever
 
 ```
