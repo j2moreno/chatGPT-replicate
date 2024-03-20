@@ -219,6 +219,10 @@
             align-items: center; /* Center items vertically */
             /* justify-content: space */
         }
+        .active-conversation {
+            background-color: #484848; /* Light grey, or choose a color that fits your design */
+            /* Additional styling as needed */
+        }
 
 
     </style>    
@@ -240,7 +244,7 @@
             
             <ul>
                 {% for conversation in conversations %}
-                <li>
+                <li class="{% if conversation.id == current_conversation_id %}active-conversation{% endif %}" id="conversation_{{ conversation.id }}">
                     <div class="conversation-content">
                         <a href="?conversation_id={{ conversation.id }}" class="conversation-title">
                             Conversation at {{ conversation.created_at|date:"SHORT_DATETIME_FORMAT" }}
@@ -296,6 +300,26 @@
                     e.preventDefault(); // Prevent the default action to avoid submitting a form if there is one
                     sendMessage();
                 }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Attach click event listeners to all conversation items
+            document.querySelectorAll('.sidebar ul li').forEach(item => {
+                item.addEventListener('click', function(event) {
+                    // Prevent the default action if necessary
+                    // event.preventDefault();
+
+                    // Clear the active class from all conversation items
+                    document.querySelectorAll('.sidebar ul li').forEach(innerItem => {
+                        innerItem.classList.remove('active-conversation');
+                    });
+
+                    // Set the clicked item as the active conversation
+                    this.classList.add('active-conversation');
+
+                    const conversationId = this.getAttribute('id').split('_')[1];
+                    console.log('Selected Conversation ID:', conversationId);
+                });
             });
         });
     

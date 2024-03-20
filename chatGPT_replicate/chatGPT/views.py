@@ -55,10 +55,13 @@ class IndexView(TemplateView):
         selected_conversation_id = self.request.GET.get('conversation_id')
         if selected_conversation_id:
             selected_conversation = get_object_or_404(Conversation, id=selected_conversation_id)
+            context['current_conversation_id'] = int(selected_conversation_id)
         else:
             selected_conversation = conversations.first() if conversations.exists() else None
+            context['current_conversation_id'] = selected_conversation.id if selected_conversation else None
 
         context['selected_conversation'] = selected_conversation
+
         return context
 
 class ChatView(APIView):
