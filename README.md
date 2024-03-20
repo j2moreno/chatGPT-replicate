@@ -8,8 +8,11 @@ This project attempts to replicate chatGPT frontend and backend functionality us
   - [X] Create GPT4 API call to handle responses
   - [X] Display responses as conversational bubbles, similar to Apple's iMessage
 - [X] Retain past conversations
-- [ ] Display all conversations on a left sidebar
-  - [ ] If a conversation is selected, the conversation is displayed
+- [X] Display all conversations on a left sidebar
+  - [X] Add new conversations 
+  - [X] If a conversation is selected, the conversation is displayed
+  - [X] Ability to delete conversation
+  - [ ] Highlight active conversation
 
 ### Stretch Goals 
 - [ ] Have the ability to switch between GPT3.5 and GPT4
